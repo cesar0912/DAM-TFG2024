@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="reserva.js"></script>
+    <title>JusTenis</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+</head>
+<body>
+    <div class="main">
+        <div class="section1">
+            <div class="menu">
+                <div class="left">
+                    <ul>
+                        <li id="tenis"><a href="../inicio/inicio.html">JusTenis</a></li>
+                    </ul>
+                </div>
+                <div class="right">
+                    <ul>
+                        <li id="inicio"><a href="../inicio/inicio.html">Inicio</a></li>
+                        <li id="reserva"><a href="../reserva/reserva.html">Reserva</a></li>
+                        <li id="conocenos"><a href="../conocenos/conocenos.html">Conócenos</a></li>
+                        <li id="login_inicio"><a href="#"><span class="acc">Usuario</span></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="reservation-form">
+                <h2 style="margin-left: 5%; text-decoration: underline;">Reservar Pista</h2>
+                <div>
+                    <!-- pista blanca: https://c8.alamy.com/compes/2dejppx/marcas-de-la-pista-de-tenis-hierba-y-cubierta-de-tierra-pista-de-tenis-al-aire-libre-zona-deportiva-para-recreacion-activa-vector-2dejppx.jpg-->
+                    <!-- pista verde: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZV2arYZm5N51pjtugolBxfMWSsihRgUb8cA&usqp=CAU-->
+                    <!-- pista roja: https://www.shutterstock.com/image-vector/top-view-dark-red-tennis-260nw-2182610291.jpg-->
+                    <!--Poner abajo una explicacion-->
+                    <img src="https://c8.alamy.com/compes/2dejppx/marcas-de-la-pista-de-tenis-hierba-y-cubierta-de-tierra-pista-de-tenis-al-aire-libre-zona-deportiva-para-recreacion-activa-vector-2dejppx.jpg" alt="Descripción de la imagen" width="45%" height="20%" style="margin: 5%;">
+                    
+                    <div id="legend" style="margin-top: -5%;">
+                        <div class="legend">
+                        <div class="color-box red"></div>
+                        <div>No disponible</div>
+                    </div>
+                    <div class="legend">
+                        <div class="color-box green"></div>
+                        <div>Disponible</div>
+                    </div>
+                    <div class="legend">
+                        <div class="color-box white"></div>
+                        <div>Datos no seleccionados</div>
+                    </div>
+                </div>
+                    
+                    
+                </div>
+                <div id="reservation">
+                    <form id="reserva-formulario" action="guardar_reserva.php" method="post">
+                        <label for="datepicker">Seleccione un día:</label>
+                        <input type="text" id="datepicker" name="datepicker" onchange="actualizarHorasDisponibles()">
+                        <br><br>
+                        <label for="hour">Seleccione una hora:</label>
+                        <select id="hour" name="hour">
+                            <!-- Agrega más opciones según sea necesario -->
+                        </select>
+                        <br><br>
+                        <label for="court">Seleccione número de pista:</label>
+                        <select id="court" name="court" onchange="actualizarHorasDisponibles()">
+                            <option value="1">Pista 1</option>
+                            <option value="2">Pista 2</option>
+                            <option value="3">Pista 3</option>
+                            <!-- Agrega más opciones según sea necesario -->
+                        </select>
+                        <br><br>
+                        <input type="submit" value="Reservar">
+                    </form>
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+    <script>
+    function actualizarHorasDisponibles() {
+    var fechaSeleccionada = document.getElementById("datepicker").value;
+    var pistaSeleccionada = document.getElementById("court").value;
+
+    // Realizar una solicitud al servidor para obtener las horas reservadas para la fecha y pista seleccionadas
+    $.ajax({
+        url: 'obtener_horas_reservadas.php',
+        type: 'POST',
+        data: { fecha: fechaSeleccionada, pista: pistaSeleccionada },
+        success: function(response) {
+            // Extraer la parte del JSON de la respuesta
+            var startJson = response.indexOf("[");
+            var jsonString = response.substring(startJson);
+            
+            // Convierte la cadena JSON a un array JavaScript
+            var horasReservadas = JSON.parse(jsonString);
+
+            // Obtener el select de hora
+            var selectHora = document.getElementById("hour");
+
+            // Limpiar las opciones anteriores
+            selectHora.innerHTML = "";
+
+            // Si hay reservas, excluir esas horas de las opciones disponibles
+            if (horasReservadas.length > 0) {
+                // Elimina los segundos de cada hora reservada
+                var horasReservadasSinSegundos = horasReservadas.map(function(hora) {
+                    return hora.slice(0, -3); // Elimina los segundos y los milisegundos
+                });
+                // Definir las horas disponibles estándar
+                var horasDisponibles = ["08:00", "09:00", "10:00"];
+
+                // Filtrar las horas disponibles excluyendo las horas reservadas
+                horasDisponibles = horasDisponibles.filter(function(hora) {
+                    return !horasReservadasSinSegundos.includes(hora);
+                });
+            } else {
+                // Si no hay reservas, mostrar las horas estándar disponibles
+                var horasDisponibles = ["08:00", "09:00", "10:00"];
+            }
+
+            // Agregar las horas disponibles al select de hora
+            horasDisponibles.forEach(function(hora) {
+                var option = document.createElement("option");
+                option.text = hora;
+                option.value = hora;
+                selectHora.add(option);
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al obtener las horas reservadas:', error);
+        }
+    });
+}
+document.addEventListener("DOMContentLoaded", function() {
+    // Obtener el elemento li con la clase user y el ID login_inicio
+    var loginLink = document.getElementById("login_inicio");
+    var conocenosLink = document.getElementById("conocenos");
+    var reservaconocenosLink = document.getElementById("reserva");
+    var inicioLink = document.getElementById("inicio");
+    var btnReservar = document.getElementById("btn-reservar");
+
+
+    // Agrega un event listener al botón de reservar
+    btnReservar.addEventListener("click", function(event) {
+        // Verifica si el usuario ha iniciado sesión
+        $.ajax({
+            url: 'verificar_sesion.php',
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                // Verificar el resultado de la respuesta
+                if (response.usuarioHaIniciadoSesion) {
+                    // Si el usuario ha iniciado sesión, guarda la reserva en la base de datos
+                    guardarReserva();
+                } else {
+                    // Si el usuario no ha iniciado sesión, redirige a la página de inicio de sesión
+                    window.location.href = "../registro/inicio-de-sesion.html";
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error al verificar la sesión:', error);
+                // Manejar el error según sea necesario
+            }
+        });
+    });
+
+    // Agregar un evento de clic al enlace
+    loginLink.addEventListener("click", function(event) {
+        // Evitar el comportamiento predeterminado del enlace (navegación)
+        event.preventDefault();
+
+        // Hacer una petición al servidor para verificar si el usuario ha iniciado sesión
+        fetch("verificar_sesion.php")
+            .then(response => response.json())
+            .then(data => {
+                // Verificar si el usuario ha iniciado sesión
+                if (data.usuarioHaIniciadoSesion) {
+                    // Redirigir al usuario a la página de misreservas.html
+                    window.location.href = "../misreservas/misreservas.php";
+                } else {
+                    // Si el usuario no ha iniciado sesión, redirigirlo a la página de inicio de sesión
+                    window.location.href = "../registro/inicio-de-sesion.html";
+                }
+            })
+            .catch(error => {
+                console.error('Error al verificar la sesión:', error);
+            });
+    });
+
+    conocenosLink.addEventListener("click", function(event) {
+        // Evitar el comportamiento predeterminado del enlace (navegación)
+        event.preventDefault();
+        window.location.href = "../conocenos/conocenos.html";
+    });
+
+    reservaconocenosLink.addEventListener("click", function(event) {
+        // Evitar el comportamiento predeterminado del enlace (navegación)
+        event.preventDefault();
+        window.location.href = "../reserva/reserva.html";
+    });
+
+    inicioLink.addEventListener("click", function(event) {
+        // Evitar el comportamiento predeterminado del enlace (navegación)
+        event.preventDefault();
+        window.location.href = "../inicio/inicio.html";
+    });
+});
+
+// Función para guardar la reserva en la base de datos
+function guardarReserva() {
+    // Obtener los datos de la reserva
+    var fecha = document.getElementById("datepicker").value;
+    var hora = document.getElementById("hour").value;
+    var pista = document.getElementById("court").value;
+
+    // Crear un objeto con los datos de la reserva
+    var reserva = {
+        fecha: fecha,
+        hora: hora,
+        pista: pista
+    };
+
+    // Realizar una solicitud AJAX para guardar la reserva en la base de datos
+    $.ajax({
+        url: 'guardar_reserva.php',
+        type: 'POST',
+        dataType: 'json',
+        data: reserva,
+        success: function(response) {
+            // Verificar la respuesta del servidor
+            if (response.exito) {
+                // La reserva se ha guardado exitosamente
+                alert("¡Reserva realizada con éxito!");
+            } else {
+                // Hubo un error al guardar la reserva
+                alert("Error al guardar la reserva. Por favor, inténtalo de nuevo.");
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al guardar la reserva:', error);
+            // Manejar el error según sea necesario
+        }
+    });
+}
+
+
+
+    </script>
+    <script>
+        $( function() {
+            var today = new Date();
+            var maxDate = new Date();
+            maxDate.setDate(today.getDate() + 14); // Dos semanas después
+    
+            $( "#datepicker" ).datepicker({
+                minDate: today,
+                maxDate: maxDate
+            });
+        } );
+    </script>
+</body>
+</html>

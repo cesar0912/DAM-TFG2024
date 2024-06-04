@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="conocenos.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <title>JusTenis</title>
+</head>
+<body>
+    <div class="main">
+        <div class="section1">
+            <div class="menu">
+                <div class="left">
+                    <ul>
+                        <li id="tenis"><a href="#">JusTenis</a></li>
+                    </ul>
+                </div>
+                <div class="right">
+                    <ul>
+                        <li id="inicio"><a href="#">Inicio</a></li>
+                        <li id="reserva"><a href="#">Reserva</a></li>
+                        <li id="conocenos"><a href="#">Conócenos</a></li>
+                        <li id="login_inicio"><a href="#"><span class="acc">Usuario</span></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="div-map">
+                <div id="map-container">
+                    <div id="map"></div>
+                </div>
+                <div class="contact-info">
+                    <div class="contact-info-item">
+                        <i class="fas fa-envelope"></i> JusTenis@example.com
+                    </div>
+
+                    <div class="contact-info-item">
+                        <i class="fas fa-phone"></i> +123456789
+                    </div>
+                    <div class="contact-info-item">
+                        <i class="fab fa-instagram"></i> @JusTenis
+                    </div>
+                    <div style="font-size: 30px;">
+                        Contáctenos
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+    </div>
+    <script>
+        var map = L.map('map').setView([40.61978660080781, -4.0140577382693925], 16);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+    
+        L.marker([40.61978660080781, -4.0140577382693925]).addTo(map)
+            .bindPopup('Aqui estamos.')
+            .openPopup();
+    </script>
+</body>
+</html>

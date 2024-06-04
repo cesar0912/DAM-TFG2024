@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Olvide mi contraseña</title>
+  <link rel="stylesheet" href="olvideContrasena.css">
+  <style>
+    #buttonBack{
+      text-decoration: none; color: lightblue; padding: 5px 10px; border: 1px solid lightblue; border-radius: 5px;width:15%;margin-top: -5%;
+    }
+    #buttonBack li a{
+      color: lightblue; text-decoration: none;  
+    }
+    #buttonBack:hover {
+    background-color: lightcyan;
+    }
+    #buttonBack ul li a:hover{
+      color:black;  
+    }
+  </style>
+</head>
+<body>
+  <main class="background_wrapper">
+    <div id="buttonBack">
+      <ul style="list-style-type: none; margin: 0; padding: 0;">
+        <li>
+          <a href="../registro/inicio-de-sesion.html" >Volver</a>
+        </li>
+      </ul>
+    </div>
+    
+    <div style="height: 20%;"></div>
+    <div class="login_form_wrapper" id="loginFormWrapper">
+      <form action="olvideContrasena.php" method="post" class="login__form" id="loginForm">
+        <h1 class="title">Recover password</h1>
+
+        <div class="login_form_content">
+          <div class="login_content_box">
+            <ion-icon name="person-outline"></ion-icon>
+
+            <div class="login_content_box--input">
+              <input
+                type="email"
+                placeholder=" "
+                class="login__input email--input"
+                name="email"
+                required
+              />
+              <label for="email" class="login__label">Email</label>
+            </div>
+          </div>
+
+          <button class="button__login">Send</button>
+        </div>
+      </form>
+    </div>
+  </main>
+</body>
+</html>
