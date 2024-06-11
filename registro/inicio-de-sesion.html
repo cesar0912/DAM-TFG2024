@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Iniciar Sesión</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles2.css">
   <script src="myscripts.js"></script>
   <style>
     #buttonBack{
@@ -26,7 +26,7 @@
     <div id="buttonBack">
       <ul style="list-style-type: none; margin: 0; padding: 0;">
         <li>
-          <a href="" >Volver</a>
+          <a href="../inicio/inicio.html" >Volver</a>
         </li>
       </ul>
     </div>
@@ -76,69 +76,10 @@
 
           <button class="button__login">Login</button>
           <p class="register__login text--sm">
-            Don't have an account ? <a href="#" id="registerLink">Register</a>
+            Don't have an account ? <a href="../registro/registro.html" id="registerLink">Register</a>
           </p>
         </div>
       </form>
-      <form action="registro.php" method="post" class="registration__form hidden" id="registrationForm">
-        <h1 class="title">Register</h1>
-
-        <div class="login_form_content">
-            <div class="login_content_box">
-                <ion-icon name="person-outline"></ion-icon>
-
-                <div class="login_content_box--input">
-                    <input
-                        type="text"
-                        placeholder=" "
-                        class="login__input name--input"
-                        name="nombre" 
-                        required
-                    />
-                    <label for="name" class="login__label">Name</label>
-                </div>
-            </div>
-            <div class="login_content_box">
-                <ion-icon name="person-outline"></ion-icon>
-
-                <div class="login_content_box--input">
-                    <input
-                        type="email"
-                        placeholder=" "
-                        class="login__input email--input"
-                        name="email"
-                        required
-                    />
-                    <label for="email" class="login__label">Email</label>
-                </div>
-            </div>
-            <div class="login_content_box">
-                <ion-icon name="lock-closed-outline"></ion-icon>
-
-                <div class="login_content_box--input">
-                    <input
-                        type="password"
-                        placeholder=" "
-                        class="login__input password--input"
-                        name="password"
-                        required
-                    />
-                    <label for="password" class="login__label">Password</label>
-                    <ion-icon
-                        class="password__hidden"
-                        id="password_hidden"
-                        name="eye-off-outline"
-                    ></ion-icon>
-                </div>
-            </div>
-            <div class="remember_login">
-                <a href="../OlvideContrasena/olvideContrasena.html" id="forgotPassword" class="forget__login text--sm">Forget password?</a>
-            </div>
-
-            <button class="button__login">Register</button>
-            <p class="login__link">Already have an account? <a href="#" id="loginLink">Login</a></p>
-        </div>
-    </form>
     </div>
   </main>
 </body>

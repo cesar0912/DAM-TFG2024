@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar Sesión</title>
+  <link rel="stylesheet" href="styles2.css">
+  <script>
+    function validarFormulario() {
+        var email = document.getElementById('email').value;
+        var password = document.getElementById('password').value;
+
+        var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,16}$/;
+        if (email === "" || password === "") {
+            document.getElementById('error_message').innerText = "Por favor, complete todos los campos.";
+            document.getElementById('error_message').style.display = "block";
+            return false;
+        }
+        if (!regex.test(password)) {
+            document.getElementById('error_message').innerText = "La contraseña debe tener entre 8 y 16 caracteres, incluyendo al menos una mayúscula, una minúscula y un número.";
+            document.getElementById('error_message').style.display = "block";
+            return false;
+        }
+
+        return true;
+    }
+</script>
+
+
+  <style>
+    #buttonBack{
+      text-decoration: none; color: lightblue; padding: 5px 10px; border: 1px solid lightblue; border-radius: 5px;width:15%;margin-top: -5%;
+    }
+    #buttonBack li a{
+      color: lightblue; text-decoration: none;  
+    }
+    #buttonBack:hover {
+    background-color: lightcyan;
+    }
+    #buttonBack ul li a:hover{
+      color:black;  
+    }
+  </style>
+</head>
+<body>
+  <main class="background_wrapper">
+    <div id="buttonBack">
+      <ul style="list-style-type: none; margin: 0; padding: 0;">
+        <li>
+          <a href="../inicio/inicio.html" >Volver</a>
+        </li>
+      </ul>
+    </div>
+    <div style="height: 20%;"></div>
+    <div class="login_form_wrapper" id="loginFormWrapper">
+      <form action="registro.php" method="post" class="registration__form" id="registrationForm" onsubmit="return validarFormulario()">
+        <h1 class="title">Register</h1>
+        <div class="login_form_content">
+            <div class="login_content_box">
+                <ion-icon name="person-outline"></ion-icon>
+
+                <div class="login_content_box--input">
+                    <input
+                        type="text"
+                        placeholder=" "
+                        class="login__input name--input"
+                        name="nombre" id="name"
+                        required
+                    />
+                    <label for="name" class="login__label">Name</label>
+                </div>
+            </div>
+            <div class="login_content_box">
+                <ion-icon name="person-outline"></ion-icon>
+
+                <div class="login_content_box--input">
+                    <input
+                        type="email"
+                        placeholder=" "
+                        class="login__input email--input"
+                        name="email"
+                        id="email"
+                        required
+                    />
+                    <label for="email" class="login__label">Email</label>
+                </div>
+            </div>
+            <div class="login_content_box">
+                <ion-icon name="lock-closed-outline"></ion-icon>
+
+                <div class="login_content_box--input">
+                    <input
+                        type="password"
+                        placeholder=" "
+                        class="login__input password--input"
+                        name="password"
+                        id="password"
+                        required
+                    />
+                    <label for="password" class="login__label">Password</label>
+                    <ion-icon
+                        class="password__hidden"
+                        id="password_hidden"
+                        name="eye-off-outline"
+                    ></ion-icon>
+                </div>
+            </div>
+            <p class="error_message" id="error_message"></p>
+            <div class="remember_login">
+                <a href="../OlvideContrasena/olvideContrasena.html" id="forgotPassword" class="forget__login text--sm">Forget password?</a>
+            </div>
+
+            <button class="button__login">Register</button>
+            <p class="login__link">Already have an account? <a href="../registro/inicio-de-sesion.html" id="loginLink">Login</a></p>
+        </div>
+    </form>
+    </div>
+  </main>
+</body>
+</html>
