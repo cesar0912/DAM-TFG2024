@@ -28,12 +28,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: ../misreservas/misreservas.php");
             exit();
         } else {
-            // La contraseña es incorrecta
-            // Puedes mostrar un mensaje de error o redirigir al usuario a una página de inicio de sesión
+            header("Location: ../registro/inicio-de-sesion.html");
         }
     } else {
-        // No se encontró ningún usuario con el correo proporcionado
-        // Puedes mostrar un mensaje de error o redirigir al usuario a una página de inicio de sesión
+        
+            header("Location: ../registro/inicio-de-sesion.html");
     }
 
     $conexion->close();
